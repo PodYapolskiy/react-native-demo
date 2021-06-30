@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, ScrollView, FlatList } from 'react-native'
-import { Navbar } from './src/Navbar'
-import { AddTodo } from './src/AddTodo'
-import { Todo } from './src/Todo'
+import { Navbar } from './src/components/Navbar'
+import { MainScreen } from './src/screens/MainScreen'
+import { TodoScreen } from './src/screens/TodoScreen'
 
 export default function App() {
   const [todos, setTodos] = useState([]) // Изменение состояния какого-либо объекта
+  const [todoId, setTodoId] = useState(null)
 
   const addTodo = title => {
     // const newTodo = {
@@ -31,28 +32,22 @@ export default function App() {
   }
 
   const removeTodo = id => {
-      // Изменяет state todos, оставляя все элементы не равные параметру `id` 
-      setTodos(prev => prev.filter(todo => todo.id !== id))
+    // Изменяет state todos, оставляя все элементы не равные параметру `id`
+    setTodos(prev => prev.filter(todo => todo.id !== id))
+  }
+
+  let content = (
+    <MainScreen todos={todos} addTodo={addTodo} removeTodo={removeTodo} />
+  )
+
+  if (todoId) {
+    content = <TodoScreen />
   }
 
   return (
     <View>
       <Navbar />
-      <View style={styles.container}>
-        <AddTodo onSubmit={addTodo} />
-
-        <FlatList // Более оптимизированная версия, прогружающая элементы только когда надо
-          keyExtractor={item => item.id.toString()} // Ключ должен быть строкой
-          data={todos}
-          renderItem={({ item }) => <Todo todo={item} onRemove={removeTodo}/>}
-        />
-
-        {/* <ScrollView>
-          {todos.map(todo => (
-            <Todo todo={todo} key={todo.id} /> // <Text key={todo.id}>{todo.title}</Text>
-          ))}
-        </ScrollView> */}
-      </View>
+      <View style={styles.container}>{content}</View>
     </View>
   )
 }
