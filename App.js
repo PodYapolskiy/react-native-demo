@@ -30,6 +30,11 @@ export default function App() {
     ])
   }
 
+  const removeTodo = id => {
+      // Изменяет state todos, оставляя все элементы не равные параметру `id` 
+      setTodos(prev => prev.filter(todo => todo.id !== id))
+  }
+
   return (
     <View>
       <Navbar />
@@ -39,7 +44,7 @@ export default function App() {
         <FlatList // Более оптимизированная версия, прогружающая элементы только когда надо
           keyExtractor={item => item.id.toString()} // Ключ должен быть строкой
           data={todos}
-          renderItem={({ item }) => <Todo todo={item} />}
+          renderItem={({ item }) => <Todo todo={item} onRemove={removeTodo}/>}
         />
 
         {/* <ScrollView>
