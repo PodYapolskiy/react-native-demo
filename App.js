@@ -5,7 +5,10 @@ import { MainScreen } from './src/screens/MainScreen'
 import { TodoScreen } from './src/screens/TodoScreen'
 
 export default function App() {
-  const [todos, setTodos] = useState([]) // Изменение состояния какого-либо объекта
+  const [todos, setTodos] = useState([
+    { id: '1', title: 'Выучить React Native' },
+    { id: '2', title: 'Выучить React' },
+  ]) // Изменение состояния какого-либо объекта
   const [todoId, setTodoId] = useState(null)
 
   const addTodo = title => {
@@ -37,11 +40,21 @@ export default function App() {
   }
 
   let content = (
-    <MainScreen todos={todos} addTodo={addTodo} removeTodo={removeTodo} />
+    <MainScreen
+      todos={todos}
+      addTodo={addTodo}
+      openTodo={setTodoId} //{id => {setTodoId(id)}}
+      removeTodo={removeTodo}
+    />
   )
 
   if (todoId) {
-    content = <TodoScreen />
+    content = (
+      <TodoScreen
+        goBack={() => setTodoId(null)}
+        todo={todos.find(todo => todo.id === todoId)}
+      />
+    )
   }
 
   return (

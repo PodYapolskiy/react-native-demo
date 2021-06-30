@@ -3,7 +3,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
 
-export const MainScreen = ({ todos, addTodo, removeTodo }) => {
+export const MainScreen = ({ todos, addTodo, openTodo, removeTodo }) => {
   return (
     <View>
       <AddTodo onSubmit={addTodo} />
@@ -11,7 +11,9 @@ export const MainScreen = ({ todos, addTodo, removeTodo }) => {
       <FlatList // Более оптимизированная версия, прогружающая элементы только когда надо
         keyExtractor={item => item.id.toString()} // Ключ должен быть строкой
         data={todos}
-        renderItem={({ item }) => <Todo todo={item} onRemove={removeTodo} />}
+        renderItem={({ item }) => (
+          <Todo todo={item} onOpen={openTodo} onRemove={removeTodo} />
+        )}
       />
 
       {/* <ScrollView>
