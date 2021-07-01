@@ -4,7 +4,7 @@ import { AppCard } from '../components/ui/AppCard'
 
 import { THEME } from '../theme'
 
-export const TodoScreen = ({ goBack, todo }) => {
+export const TodoScreen = ({ goBack, todo, onRemove }) => {
   return (
     <View>
       <AppCard style={styles.card}>
@@ -20,7 +20,7 @@ export const TodoScreen = ({ goBack, todo }) => {
           <Button
             title='Удалить'
             color={THEME.DANGER_COLOR}
-            onPress={() => console.log('Remove')}
+            onPress={() => onRemove(todo.id)}
           />
         </View>
       </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   card: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   button: {
     width: '40%',

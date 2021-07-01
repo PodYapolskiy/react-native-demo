@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, FlatList } from 'react-native'
+import { StyleSheet, View, ScrollView, FlatList, Alert } from 'react-native'
 import { Navbar } from './src/components/Navbar'
 import { MainScreen } from './src/screens/MainScreen'
 import { TodoScreen } from './src/screens/TodoScreen'
@@ -35,8 +35,27 @@ export default function App() {
   }
 
   const removeTodo = id => {
-    // Изменяет state todos, оставляя все элементы не равные параметру `id`
-    setTodos(prev => prev.filter(todo => todo.id !== id))
+    const todo = todos.find(t => t.id === id)
+
+    Alert.alert(
+      'Удаление элемента', // Заголовок
+      `Вы уверены, что хотите удалить ${todo.title}?`, // Сообщение
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel',
+        },
+        {
+          text: 'Удалить',
+          onPress: () => {
+            setTodoId(null) // Переходим обратно на главный экран
+            // Изменяет state todos, оставляя все элементы не равные параметру `id`
+            setTodos(prev => prev.filter(todo => todo.id !== id))
+          },
+        },
+      ],
+      { cancelable: false } // При открытом окне и нажатии вне его зоны окно закрываться не будет
+    )
   }
 
   let content = (
@@ -51,6 +70,7 @@ export default function App() {
   if (todoId) {
     content = (
       <TodoScreen
+        onRemove={removeTodo}
         goBack={() => setTodoId(null)}
         todo={todos.find(todo => todo.id === todoId)}
       />
