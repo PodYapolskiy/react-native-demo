@@ -58,6 +58,17 @@ export default function App() {
     )
   }
 
+  const updateTodo = (id, title) => {
+    setTodos(prev =>
+      prev.map(todo => { // Зная, что в `prev` лежит массив используем метод map
+        if (todo.id === id) { //Если id совпадает, меняем title на новый
+          todo.title = title
+        }
+        return todo // На каждой итерации возвращаем todo
+      })
+    )
+  }
+
   let content = (
     <MainScreen
       todos={todos}
@@ -73,6 +84,7 @@ export default function App() {
         onRemove={removeTodo}
         goBack={() => setTodoId(null)}
         todo={todos.find(todo => todo.id === todoId)}
+        onSave={updateTodo}
       />
     )
   }
