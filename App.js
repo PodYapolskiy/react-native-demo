@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, ScrollView, FlatList, Alert } from 'react-native'
+import * as Font from 'expo-font'
 import { Navbar } from './src/components/Navbar'
 import { MainScreen } from './src/screens/MainScreen'
 import { TodoScreen } from './src/screens/TodoScreen'
+
+async function LoadApplication() {
+  await Font.loadAsync({
+    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
+  })
+}
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -59,8 +67,10 @@ export default function App() {
 
   const updateTodo = (id, title) => {
     setTodos(prev =>
-      prev.map(todo => { // Зная, что в `prev` лежит массив используем метод map
-        if (todo.id === id) { //Если id совпадает, меняем title на новый
+      prev.map(todo => {
+        // Зная, что в `prev` лежит массив используем метод map
+        if (todo.id === id) {
+          //Если id совпадает, меняем title на новый
           todo.title = title
         }
         return todo // На каждой итерации возвращаем todo

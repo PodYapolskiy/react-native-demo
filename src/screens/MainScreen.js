@@ -17,7 +17,10 @@ export const MainScreen = ({ todos, addTodo, openTodo, removeTodo }) => {
   if (todos.length === 0) {
     content = (
       <View style={styles.image_wrap}>
-        <Image style={styles.image} source={require('../../assets/no-items.png')} />
+        <Image
+          style={styles.image}
+          source={require('../../assets/no-items.png')}
+        />
         {/* <Image style={styles.image} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png' }} /> */}
       </View>
     )
