@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, ScrollView, FlatList, Alert } from 'react-native'
 import * as Font from 'expo-font'
+import { AppLoading } from 'expo'
+
 import { Navbar } from './src/components/Navbar'
 import { MainScreen } from './src/screens/MainScreen'
 import { TodoScreen } from './src/screens/TodoScreen'
 
-async function LoadApplication() {
+async function loadApplication() {
   await Font.loadAsync({
     'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
     'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
@@ -13,10 +15,23 @@ async function LoadApplication() {
 }
 
 export default function App() {
+  const [isReady, setIsReady] = useState(false)
+
   const [todos, setTodos] = useState([
     { id: '1', title: 'Выучить React Native' },
   ]) // Изменение состояния какого-либо объекта
   const [todoId, setTodoId] = useState(null)
+
+  if (!isReady) {
+    // Пока не будут отрисованы шрифты, будет выполняться данный код
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onError={err => console.log(err)}
+        onFinish={() => setIsReady(true)}
+      />
+    )
+  }
 
   const addTodo = title => {
     // const newTodo = {
