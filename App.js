@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, FlatList, Alert } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import * as Font from 'expo-font'
-import { AppLoading } from 'expo'
+import AppLoading from 'expo-app-loading'
 
 import { Navbar } from './src/components/Navbar'
 import { MainScreen } from './src/screens/MainScreen'
