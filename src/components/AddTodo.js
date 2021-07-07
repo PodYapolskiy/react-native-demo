@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, TextInput, Button, View, Alert } from 'react-native'
+import { StyleSheet, TextInput, View, Alert, Keyboard } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
 
@@ -9,10 +9,11 @@ export const AddTodo = props => {
   const [value, setValue] = useState('')
 
   const pressHandler = () => {
-    // Если пустой инпут
+    // Если не пустой инпут
     if (value.trim()) {
       props.onSubmit(value)
       setValue('')
+      Keyboard.dismiss()
     } else {
       Alert.alert('Название дела не может быть пустым')
     }
