@@ -1,17 +1,44 @@
-import React from 'react'
-import { StyleSheet, View, FlatList, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, FlatList, Image, Dimensions } from 'react-native'
+
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
+import { THEME } from '../theme'
 
 export const MainScreen = ({ todos, addTodo, openTodo, removeTodo }) => {
+  const [deviceWidth, setDeviceWidth] = useState(
+    Dimensions.get('window').width - 2 * THEME.PADDING_HORISONTAL
+  )
+
+  // Вызывается только раз при инициализации объекта
+  useEffect(() => {
+    const update = () => {
+      // Высчитывает ширину в зависимости от её нового значения
+      const width =
+        Dimensions.get('window').width - 2 * THEME.PADDING_HORISONTAL
+      setDeviceWidth(width)
+    }
+
+    Dimensions.addEventListener('change', update)
+
+    // Когда происходит дейстрой компонента удаляем событие 'change' и функцию 'update'
+    return () => {
+      Dimensions.removeEventListener('change', update)
+    }
+  })
+
+  // const width = Dimensions.get('window').width - 2 * THEME.PADDING_HORISONTAL
+
   let content = (
-    <FlatList // Более оптимизированная версия, прогружающая элементы только когда надо
-      keyExtractor={item => item.id.toString()} // Ключ должен быть строкой
-      data={todos}
-      renderItem={({ item }) => (
-        <Todo todo={item} onOpen={openTodo} onRemove={removeTodo} />
-      )}
-    />
+    <View style={{ width: deviceWidth }}>
+      <FlatList // Более оптимизированная версия, прогружающая элементы только когда надо
+        keyExtractor={item => item.id.toString()} // Ключ должен быть строкой
+        data={todos}
+        renderItem={({ item }) => (
+          <Todo todo={item} onOpen={openTodo} onRemove={removeTodo} />
+        )}
+      />
+    </View>
   )
 
   if (todos.length === 0) {
