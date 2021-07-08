@@ -17,10 +17,7 @@ async function loadApplication() {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false)
-
-  const [todos, setTodos] = useState([
-    { id: '1', title: 'Выучить React Native' },
-  ]) // Изменение состояния какого-либо объекта
+  const [todos, setTodos] = useState([]) // Изменение состояния какого-либо объекта
   const [todoId, setTodoId] = useState(null)
 
   if (!isReady) {
