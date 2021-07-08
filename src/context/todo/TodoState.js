@@ -7,9 +7,10 @@ export const TodoState = ({ children }) => {
   const initialState = {
     todos: [{ id: '1', title: 'Выучить React Native' }],
   }
-  const [state, dispatch] = useReducer(todoReducer, initialState) //
+  const [state, dispatch] = useReducer(todoReducer, initialState) // Что-то что лучше чем useState
 
   return (
+    // Создаём прослойку, в которой будут хранится сами задачи
     <TodoContext.Provider value={{ todos: state.todos }}>
       {children}
     </TodoContext.Provider>
