@@ -27,8 +27,6 @@ export default function App() {
     )
   }
 
-  
-
   return (
     <TodoState>
       <MainLayout />
