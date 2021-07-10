@@ -5,6 +5,7 @@ import AppLoading from 'expo-app-loading'
 
 import { MainLayout } from './src/MainLayout'
 import { TodoState } from './src/context/todo/TodoState'
+import { ScreenState } from './src/context/screen/ScreenState'
 
 async function loadApplication() {
   await Font.loadAsync({
@@ -28,9 +29,12 @@ export default function App() {
   }
 
   return (
-    <TodoState>
-      <MainLayout />
-    </TodoState>
+    // Лёгкая в понимании иерархия
+    <ScreenState>
+      <TodoState>
+        <MainLayout />
+      </TodoState>
+    </ScreenState>
   )
 }
 

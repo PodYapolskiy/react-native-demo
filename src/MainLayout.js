@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import { Navbar } from './components/Navbar'
+import { ScreenContext } from './context/screen/screenContext'
 import { TodoContext } from './context/todo/todoContext'
 import { MainScreen } from './screens/MainScreen'
 import { TodoScreen } from './screens/TodoScreen'
@@ -10,31 +11,7 @@ import { THEME } from './theme'
 
 export const MainLayout = () => {
   const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext) // ?
-  //   const [todos, setTodos] = useState([]) // Изменение состояния какого-либо объекта
-  const [todoId, setTodoId] = useState(null)
-
-  //   const addTodo = title => {
-  //     // const newTodo = {
-  //     //   id: Date.now().toString(),
-  //     //   title: title
-  //     // }
-
-  //     // setTodos(todos.concat([ newTodo]))
-  //     // setTodos((prevTodos) => {
-  //     //   return [
-  //     //     ...prevTodos,
-  //     //     newTodo
-  //     //   ]
-  //     // })
-
-  //     setTodos(prev => [
-  //       ...prev,
-  //       {
-  //         id: Date.now().toString(),
-  //         title, // title: title; когда одинаковые значения
-  //       },
-  //     ])
-  //   }
+  const { todoId, changeScreen } = useContext(ScreenContext)
 
   //   const removeTodo = id => {
   //     const todo = todos.find(t => t.id === id)
@@ -60,24 +37,11 @@ export const MainLayout = () => {
   //     )
   //   }
 
-  //   const updateTodo = (id, title) => {
-  //     setTodos(prev =>
-  //       prev.map(todo => {
-  //         // Зная, что в `prev` лежит массив используем метод map
-  //         if (todo.id === id) {
-  //           //Если id совпадает, меняем title на новый
-  //           todo.title = title
-  //         }
-  //         return todo // На каждой итерации возвращаем todo
-  //       })
-  //     )
-  //   }
-
   let content = (
     <MainScreen
       todos={todos}
       addTodo={addTodo}
-      openTodo={setTodoId} //{id => {setTodoId(id)}}
+      openTodo={changeScreen}
       removeTodo={removeTodo}
     />
   )
@@ -86,7 +50,7 @@ export const MainLayout = () => {
     content = (
       <TodoScreen
         onRemove={removeTodo}
-        goBack={() => setTodoId(null)}
+        goBack={() => changeScreen(null)}
         todo={todos.find(todo => todo.id === todoId)}
         onSave={updateTodo}
       />
