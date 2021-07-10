@@ -37,17 +37,3 @@ export default function App() {
     </ScreenState>
   )
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,  // Занимает всю доступную высоту экрана
-//     flexDirection: 'column',  // Выравнивания ниже зависят от этого
-//     backgroundColor: '#000',
-//     alignItems: 'flex-end',  // Выравнивание по горизонтали
-//     justifyContent: 'center',  // Выравнивание по вертикали
-//   },
-//   text: {
-//     color: '#fff',
-//     fontSize: 26
-//   }
-// });
