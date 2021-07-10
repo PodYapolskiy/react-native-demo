@@ -24,8 +24,19 @@ export const TodoState = ({ children }) => {
   // Функция dispatch позволяет изменять state
   const [state, dispatch] = useReducer(todoReducer, initialState) // Что-то что лучше чем useState
 
-  const addTodo = title => dispatch({ type: ADD_TODO, title })
-
+  const addTodo = async title => {
+    const response = await fetch(
+      'https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title }),
+      }
+    )
+    const data = await response.json()
+    console.log(data.name)
+    dispatch({ type: ADD_TODO, title, id: data.name })
+  }
   const removeTodo = id => {
     const todo = state.todos.find(t => t.id === id)
 
