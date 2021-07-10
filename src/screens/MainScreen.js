@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { StyleSheet, View, FlatList, Image, Dimensions } from 'react-native'
 
 import { AddTodo } from '../components/AddTodo'
@@ -8,11 +8,18 @@ import { TodoContext } from '../context/todo/todoContext'
 import { THEME } from '../theme'
 
 export const MainScreen = () => {
-  const { addTodo, todos, removeTodo } = useContext(TodoContext)
+  const { addTodo, todos, removeTodo, fetchTodos, loading, error } =
+    useContext(TodoContext)
   const { changeScreen } = useContext(ScreenContext)
   const [deviceWidth, setDeviceWidth] = useState(
     Dimensions.get('window').width - 2 * THEME.PADDING_HORISONTAL
   )
+
+  const loadTodos = useCallback(async () => await fetchTodos(), [fetchTodos])
+
+  useEffect(() => {
+    loadTodos()
+  }, [])
 
   // Вызывается только раз при инициализации объекта
   useEffect(() => {

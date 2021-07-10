@@ -4,6 +4,7 @@ import { ScreenContext } from '../screen/screenContext'
 import {
   ADD_TODO,
   CLEAR_ERROR,
+  FETCH_TODOS,
   HIDE_LOADER,
   REMOVE_TODO,
   SHOW_ERROR,
@@ -37,6 +38,7 @@ export const TodoState = ({ children }) => {
     console.log(data.name)
     dispatch({ type: ADD_TODO, title, id: data.name })
   }
+
   const removeTodo = id => {
     const todo = state.todos.find(t => t.id === id)
 
@@ -70,14 +72,31 @@ export const TodoState = ({ children }) => {
 
   const clearError = () => dispatch({ type: CLEAR_ERROR })
 
+  const fetchTodos = async () => {
+    const response = await fetch(
+      'https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    )
+    const data = await response.json()
+    console.log('Fetch Data', data)
+    const todos = Object.keys(data).map(key => ({ ...data[key], id: key }))
+    setTimeout(() => dispatch({ type: FETCH_TODOS, todos }), 5000)
+  }
+
   return (
     // Создаём прослойку, в которой будут хранится сами задачи
     <TodoContext.Provider
       value={{
         todos: state.todos,
+        loading: state.loading,
+        error: state.error,
         addTodo,
         removeTodo,
         updateTodo,
+        fetchTodos,
       }}
     >
       {children}
