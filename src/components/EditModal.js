@@ -21,6 +21,12 @@ export const EditModal = ({ value, visible, onCancel, onSave }) => {
     }
   }
 
+  const cancelHandler = () => {
+    // При редкатировании в модальном окне, текст сброситься, если он не был сохранён
+    setTitle(value)
+    onCancel()
+  }
+
   return (
     <Modal visible={visible} animationType='slide' transparent={false}>
       <View style={styles.wrap}>
@@ -34,7 +40,7 @@ export const EditModal = ({ value, visible, onCancel, onSave }) => {
           maxLength={64}
         />
         <View style={styles.buttons}>
-          <AppButton onPress={onCancel} color={THEME.DANGER_COLOR}>
+          <AppButton onPress={cancelHandler} color={THEME.DANGER_COLOR}>
             Отменить
           </AppButton>
           <AppButton onPress={saveHandler}>Сохранить</AppButton>
