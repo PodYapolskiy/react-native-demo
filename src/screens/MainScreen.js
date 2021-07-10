@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList, Image, Dimensions } from 'react-native'
 
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
+import { AppLoader } from '../components/ui/AppLoader'
 import { ScreenContext } from '../context/screen/screenContext'
 import { TodoContext } from '../context/todo/todoContext'
 import { THEME } from '../theme'
@@ -38,7 +39,9 @@ export const MainScreen = () => {
     }
   })
 
-  // const width = Dimensions.get('window').width - 2 * THEME.PADDING_HORISONTAL
+  if (loading) {
+    return <AppLoader />
+  }
 
   let content = (
     <View style={{ width: deviceWidth }}>

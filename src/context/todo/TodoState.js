@@ -73,6 +73,7 @@ export const TodoState = ({ children }) => {
   const clearError = () => dispatch({ type: CLEAR_ERROR })
 
   const fetchTodos = async () => {
+    showLoader() // Показывает знак загрузки
     const response = await fetch(
       'https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
       {
@@ -83,7 +84,8 @@ export const TodoState = ({ children }) => {
     const data = await response.json()
     console.log('Fetch Data', data)
     const todos = Object.keys(data).map(key => ({ ...data[key], id: key }))
-    setTimeout(() => dispatch({ type: FETCH_TODOS, todos }), 5000)
+    dispatch({ type: FETCH_TODOS, todos })
+    hideLoader()
   }
 
   return (
