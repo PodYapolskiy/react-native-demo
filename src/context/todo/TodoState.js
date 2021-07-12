@@ -74,18 +74,26 @@ export const TodoState = ({ children }) => {
 
   const fetchTodos = async () => {
     showLoader() // Показывает знак загрузки
-    const response = await fetch(
-      'https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
-      {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      }
-    )
-    const data = await response.json()
-    console.log('Fetch Data', data)
-    const todos = Object.keys(data).map(key => ({ ...data[key], id: key }))
-    dispatch({ type: FETCH_TODOS, todos })
-    hideLoader()
+    clearError() // Очищаем ошибку, если она уже была показана
+
+    try {
+      const response = await fetch(
+        'https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos.json',
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      const data = await response.json()
+      console.log('Fetch Data', data)
+      const todos = Object.keys(data).map(key => ({ ...data[key], id: key }))
+      dispatch({ type: FETCH_TODOS, todos })
+    } catch (e) {
+      showError('Что-то пошло не так...')
+      console.log(e)
+    } finally {
+      hideLoader()
+    }
   }
 
   return (
