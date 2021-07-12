@@ -39,7 +39,7 @@ export const TodoState = ({ children }) => {
     dispatch({ type: ADD_TODO, title, id: data.name })
   }
 
-  const removeTodo = id => {
+  const removeTodo = async id => {
     const todo = state.todos.find(t => t.id === id)
 
     Alert.alert(
@@ -52,8 +52,15 @@ export const TodoState = ({ children }) => {
         },
         {
           text: 'Удалить',
-          onPress: () => {
+          onPress: async () => {
             changeScreen(null) // Меняем экран обратно на Main
+            await fetch(
+              `https://rn-todo-app-22a28-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`,
+              {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
             dispatch({ type: REMOVE_TODO, id })
           },
         },
