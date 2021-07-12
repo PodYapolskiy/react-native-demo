@@ -19,8 +19,9 @@ export const TodoScreen = () => {
 
   const todo = todos.find(t => t.id === todoId)
 
-  const saveHandler = title => {
-    updateTodo(todo.id, title)
+  const saveHandler = async title => {
+    // Дожидается выполнения функции по изменению todo и затем закрывает модальное окно
+    await updateTodo(todo.id, title)
     setModal(false)
   }
 
